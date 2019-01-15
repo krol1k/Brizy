@@ -195,7 +195,7 @@ class Brizy_Admin_Migrations {
 
 			} catch ( Exception $e ) {
 				$wpdb->query( 'ROLLBACK' );
-				Brizy_Logger::instance()->debug( 'Migration process ERROR', $e );
+				Brizy_Logger::instance()->debug( 'Migration process ERROR', [$e] );
 			}
 		}
 
@@ -232,7 +232,7 @@ class Brizy_Admin_Migrations {
 
 			} catch ( Exception $e ) {
 				$wpdb->query( 'ROLLBACK' );
-				Brizy_Logger::instance()->debug( 'Migration process ERROR', $e );
+				Brizy_Logger::instance()->debug( 'Migration process ERROR', [$e] );
 			}
 		}
 
