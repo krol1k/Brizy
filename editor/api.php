@@ -234,7 +234,6 @@ class Brizy_Editor_API {
 	}
 
 
-
 	public function multipass_create() {
 
 		try {
@@ -286,7 +285,6 @@ class Brizy_Editor_API {
 			exit;
 		}
 	}
-
 
 
 	/**
@@ -343,17 +341,24 @@ class Brizy_Editor_API {
 			//$post_id = (int) $this->param( 'post' );
 			$this->project->setGlobalsAsJson( $data );
 
-			// mark all brizy post to be compiled on next view
-			$posts = Brizy_Editor_Post::get_all_brizy_posts();
+			if ( (int) $this->param( 'is_autosave' ) ) {
+				$this->project->auto_save_post();
+			} else {
+				$this->project->save();
+				$this->project->save_wp_post();
 
-			// we need to trigger a post update action to make sure the cache plugins will update clear the cache
-			remove_action( 'save_post', array( Brizy_Admin_Main::instance(), 'compile_post_action' ) );
-			// mark all post to be compiled on next view
-			foreach ( $posts as $bpost ) {
-				$bpost->set_needs_compile( true );
-				$bpost->save();
+				// mark all brizy post to be compiled on next view
+				$posts = Brizy_Editor_Post::get_all_brizy_posts();
 
-				wp_update_post( array( 'ID' => $bpost->get_id() ) );
+				// we need to trigger a post update action to make sure the cache plugins will update clear the cache
+				remove_action( 'save_post', array( Brizy_Admin_Main::instance(), 'compile_post_action' ) );
+				// mark all post to be compiled on next view
+				foreach ( $posts as $bpost ) {
+					$bpost->set_needs_compile( true );
+					$bpost->save();
+
+					wp_update_post( array( 'ID' => $bpost->get_id() ) );
+				}
 			}
 
 //			$platform = new Brizy_Editor_API_Platform();
@@ -402,7 +407,7 @@ class Brizy_Editor_API {
 				$this->post->set_editor_version( BRIZY_EDITOR_VERSION );
 			}
 
-			if ( (int)$this->param( 'is_autosave' ) ) {
+			if ( (int) $this->param( 'is_autosave' ) ) {
 				$this->post->auto_save_post();
 			} else {
 				$this->post->compile_page();
@@ -614,7 +619,7 @@ class Brizy_Editor_API {
 
 		$globals = array(
 			'id'        => $this->project->getId(),
-			'gb'        => $this->project->getGlobals(),
+			'gb'        => $this->project->getDecodedGlobals(),
 			'name'      => $wp_post->post_name,
 			'createdAt' => $wp_post->post_date,
 			'updatedAt' => $wp_post->post_date,

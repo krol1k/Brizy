@@ -24,7 +24,7 @@ class Brizy_Editor_Accounts_AbstractAccountManager {
 	 * @param $class
 	 * @param Brizy_Editor_Project $project
 	 */
-	public function __construct( $class,  Brizy_Editor_Project $project ) {
+	public function __construct( $class, Brizy_Editor_Project $project ) {
 		$this->project = $project;
 		try {
 			$this->loadAccounts( $class, $project );
@@ -45,7 +45,7 @@ class Brizy_Editor_Accounts_AbstractAccountManager {
 	 */
 	public function getAccounts( $service ) {
 
-		if ( isset($this->accounts[ $service ]) ) {
+		if ( isset( $this->accounts[ $service ] ) ) {
 			return array_values( $this->accounts[ $service ] );
 		}
 
@@ -129,7 +129,8 @@ class Brizy_Editor_Accounts_AbstractAccountManager {
 			}
 		}
 
-		$this->project->setMetaValue( 'accounts', $data );
+		$this->project->setAccounts( $data );
+		$this->project->save();
 	}
 
 	/**

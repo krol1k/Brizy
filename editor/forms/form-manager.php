@@ -76,6 +76,7 @@ class Brizy_Editor_Forms_FormManager {
 	}
 
 	private function updateStorage() {
-		$this->project->setMetaValue( 'forms', $this->forms );
+		$this->project->setForms( $this->forms );
+		$this->project->save();
 	}
 }
