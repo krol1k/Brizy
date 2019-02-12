@@ -156,6 +156,10 @@ class Brizy_Editor {
 		if ( class_exists( 'WCL_Plugin' ) ) {
 			new Brizy_Compatibilities_WebcrafticClearfy();
 		}
+
+		if ( function_exists( 'domain_mapping_siteurl' ) ) {
+			new Brizy_Compatibilities_WordpressMuDmainMapping();
+		}
 	}
 
 	/**
