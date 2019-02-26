@@ -64,6 +64,10 @@ class Brizy_Admin_Blocks_Main {
 			'order'          => 'ASC',
 		) );
 
+		if ( ! isset( $globalData->project->globalBlocks ) ) {
+			$globalData->project->globalBlocks = (object) array();
+		}
+
 
 		foreach ( $blocks as $block ) {
 			$brizy_editor_block                      = Brizy_Editor_Block::get( $block );
